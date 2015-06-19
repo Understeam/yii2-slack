@@ -101,6 +101,11 @@ class LogTarget extends Target
                         'value' => Yii::$app->has('request') && Yii::$app->request instanceof Request ? Yii::$app->request->userIP : 'unknown',
                         'short' => true,
                     ],
+                    [
+                        'title' => 'URL',
+                        'value' => Yii::$app->has('request') && Yii::$app->request instanceof Request ? Yii::$app->request->url : 'unknown',
+                        'short' => true,
+                    ],
                 ],
             ];
         }
