@@ -11,7 +11,7 @@
   "require": {
     "php": ">=5.4.0",
     "yiisoft/yii2": ">=2.0.0",
-    "understeam/httpclient": ">=0.1"
+    "understeam/yii2-httpclient": ">=0.1"
   },
   "autoload": {
     "psr-4": {
