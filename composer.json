@@ -1,0 +1,21 @@
+{
+  "name": "understeam/yii2-slack",
+  "description": "Yii2 slack client based on GuzzleHttp library",
+  "type": "extension",
+  "license": "GPL-v3",
+  "support": {
+    "issues": "https://github.com/understeam/yii2-slack/issues",
+    "source": "https://github.com/understeam/yii2-slack"
+  },
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=5.4.0",
+    "yiisoft/yii2": ">=2.0.0",
+    "understeam/httpclient": ">=0.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "understeam\\slack\\": ""
+    }
+  }
+}
