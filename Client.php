@@ -7,8 +7,6 @@
 
 namespace understeam\slack;
 
-use GuzzleHttp\Post\PostBody;
-use understeam\httpclient\Event;
 use Yii;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
@@ -24,8 +22,9 @@ class Client extends Component
     public $url;
     public $username;
     public $emoji;
+    public $defaultText = "Message from Yii application";
 
-    /** @var string|\understeam\httpclient\Client */
+    /** @var string|\yii\httpclient\Client */
     public $httpclient = 'httpclient';
 
     public function init()
@@ -34,31 +33,26 @@ class Client extends Component
             $this->httpclient = Yii::$app->get($this->httpclient);
         } elseif (is_array($this->httpclient)) {
             if (!isset($this->httpclient['class'])) {
-                $this->httpclient['class'] = \understeam\httpclient\Client::className();
+                $this->httpclient['class'] = 'yii\httpclient\Client';
             }
             $this->httpclient = Yii::createObject($this->httpclient);
         }
-        if (!$this->httpclient instanceof \understeam\httpclient\Client) {
+        if (!$this->httpclient instanceof \yii\httpclient\Client) {
             throw new InvalidConfigException("Client::httpclient must be either a Http client instance or the application component ID of a Http client.");
         }
     }
 
     public function send($text = null, $icon = null, $attachments = [])
     {
-        $self = $this;
-        $this->httpclient->request($this->url, 'POST', function (Event $event) use ($self, $text, $icon, $attachments) {
-            $request = $event->message;
-            /** @var \GuzzleHttp\Message\Request $request */
-            $body = new PostBody();
-            $body->setField('payload', Json::encode($self->getPayload($text, $icon, $attachments)));
-            $request->setBody($body);
-        });
+        $this->httpclient->post($this->url, [
+            'payload' => Json::encode($this->getPayload($text, $icon, $attachments)),
+        ]);
     }
 
     protected function getPayload($text = null, $icon = null, $attachments = [])
     {
         if ($text === null) {
-            $text = 'Yii message from ' . Yii::$app->id;
+            $text = $this->defaultText;
         }
 
         $payload = [

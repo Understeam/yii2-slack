@@ -28,7 +28,8 @@ class LogTarget extends Target
      */
     public $slack = 'slack';
 
-    public function init() {
+    public function init()
+    {
         if (is_string($this->slack)) {
             $this->slack = Yii::$app->get($this->slack);
         } elseif (is_array($this->slack)) {
@@ -48,7 +49,7 @@ class LogTarget extends Target
      */
     public function export()
     {
-        $this->slack->send(null, $this->emoji, $this->getAttachments());
+        $this->slack->send("Log message", $this->emoji, $this->getAttachments());
     }
 
     public function getLevelColor($level)
@@ -70,12 +71,17 @@ class LogTarget extends Target
     {
         $attachments = [];
         foreach ($this->messages as $i => $message) {
-            $attachments[] = [
+            $attachment = [
                 'fallback' => 'Log message ' . ($i + 1),
                 'text' => $message[0],
                 'pretext' => $message[2],
                 'color' => $this->getLevelColor($message[1]),
                 'fields' => [
+                    [
+                        'title' => 'Application ID',
+                        'value' => Yii::$app->id,
+                        'short' => true,
+                    ],
                     [
                         'title' => 'Level',
                         'value' => $message[1],
@@ -87,27 +93,30 @@ class LogTarget extends Target
                         'short' => true,
                     ],
                     [
-                        'title' => 'Timestamp',
-                        'value' => $message[3],
-                        'short' => true,
-                    ],
-                    [
-                        'title' => 'Referrer',
-                        'value' => Yii::$app->has('request') && Yii::$app->request instanceof Request ? Yii::$app->request->referrer : 'unknown',
-                        'short' => true,
-                    ],
-                    [
-                        'title' => 'User IP',
-                        'value' => Yii::$app->has('request') && Yii::$app->request instanceof Request ? Yii::$app->request->userIP : 'unknown',
-                        'short' => true,
-                    ],
-                    [
-                        'title' => 'URL',
-                        'value' => Yii::$app->has('request') && Yii::$app->request instanceof Request ? Yii::$app->request->url : 'unknown',
+                        'title' => 'Date',
+                        'value' => Yii::$app->formatter->asDatetime($message[3], 'long'),
                         'short' => true,
                     ],
                 ],
             ];
+            if (Yii::$app->has('request') && ($request = Yii::$app->request) instanceof Request) {
+                $attachment['fields'][] = [
+                    'title' => 'Referrer',
+                    'value' => $request->getReferrer(),
+                    'short' => true,
+                ];
+                $attachment['fields'][] = [
+                    'title' => 'User IP',
+                    'value' => $request->getUserIP(),
+                    'short' => true,
+                ];
+                $attachment['fields'][] = [
+                    'title' => 'URL',
+                    'value' => $request->getAbsoluteUrl(),
+                    'short' => true,
+                ];
+            }
+            $attachments[] = $attachment;
         }
         return $attachments;
     }
