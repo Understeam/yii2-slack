@@ -2,6 +2,9 @@
 
 Designed to send messages to slack messenger
 
+![How it looks](http://dn.imagy.me/201602/15/12d7dae10bfb96c159f48901d518e196.png)
+
+
 ## Installation
 
 ```bash
