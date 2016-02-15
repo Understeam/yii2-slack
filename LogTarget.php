@@ -73,28 +73,13 @@ class LogTarget extends Target
         foreach ($this->messages as $i => $message) {
             $attachment = [
                 'fallback' => 'Log message ' . ($i + 1),
-                'text' => $message[0],
-                'pretext' => $message[2],
+                'text' => $this->formatMessage($message),
+                'pretext' => $message[0],
                 'color' => $this->getLevelColor($message[1]),
                 'fields' => [
                     [
                         'title' => 'Application ID',
                         'value' => Yii::$app->id,
-                        'short' => true,
-                    ],
-                    [
-                        'title' => 'Level',
-                        'value' => $message[1],
-                        'short' => true,
-                    ],
-                    [
-                        'title' => 'Category',
-                        'value' => $message[2],
-                        'short' => true,
-                    ],
-                    [
-                        'title' => 'Date',
-                        'value' => Yii::$app->formatter->asDatetime($message[3], 'long'),
                         'short' => true,
                     ],
                 ],
