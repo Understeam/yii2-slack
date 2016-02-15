@@ -49,12 +49,14 @@ Also you can use slack as a logger:
 ...
 'components' => [
     'log' => [
+        'traceLevel' => 3,
+        'flushInterval' => 1, // For daemons only
         'targets' => [
             [
                 'class' => 'understeam\slack\LogTarget',
+                'categories' => ['commandBus'],
+                'exportInterval' => 1,
                 'logVars' => [],
-                'except' => ['yii\web\*', 'api\components\*'],
-                'levels' => ['error'],
             ],
         ],
     ],
