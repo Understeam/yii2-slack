@@ -46,7 +46,7 @@ class Client extends Component
     {
         $this->httpclient->post($this->url, [
             'payload' => Json::encode($this->getPayload($text, $icon, $attachments)),
-        ]);
+        ])->send();
     }
 
     protected function getPayload($text = null, $icon = null, $attachments = [])
