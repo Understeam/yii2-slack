@@ -50,12 +50,11 @@ Also you can use slack as a logger:
 'components' => [
     'log' => [
         'traceLevel' => 3,
-        'flushInterval' => 1, // For daemons only
         'targets' => [
             [
                 'class' => 'understeam\slack\LogTarget',
                 'categories' => ['commandBus'],
-                'exportInterval' => 1,
+                'exportInterval' => 1, // Send logs on every message
                 'logVars' => [],
             ],
         ],
