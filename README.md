@@ -15,6 +15,30 @@ Also, you should configure [incoming webhook](https://api.slack.com/incoming-web
 
 ## Usage
 
+First of all, configure [yiisoft/yii2-httpclient](https://github.com/yiisoft/yii2-httpclient) component:
+
+```php
+...
+    'components' => [
+    ],
+...
+```php
+
+Also you can set it up only inside of slack client:
+
+```php
+...
+    'components' => [
+        'slack' => [
+            'httpclient' => [
+                'class' => 'yii\httpclient\Client',
+            ],
+            ...
+        ],
+    ],
+...
+```php
+
 Configure component:
 
 ```php
@@ -41,9 +65,9 @@ Yii::$app->slack->send('Hello', ':thumbs_up:', [
 ]);
 ```
 
-To learn more about attachments, [read slack documentation](https://api.slack.com/incoming-webhooks)
+To learn more about attachments, [read Slack documentation](https://api.slack.com/incoming-webhooks)
 
-Also you can use slack as a logger:
+Also you can use slack as a log target:
 
 ```php
 ...
