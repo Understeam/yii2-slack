@@ -22,7 +22,7 @@ First of all, configure [yiisoft/yii2-httpclient](https://github.com/yiisoft/yii
     'components' => [
     ],
 ...
-```php
+```
 
 Also you can set it up only inside of slack client:
 
@@ -37,7 +37,7 @@ Also you can set it up only inside of slack client:
         ],
     ],
 ...
-```php
+```
 
 Configure component:
 
