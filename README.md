@@ -20,6 +20,9 @@ First of all, configure [yiisoft/yii2-httpclient](https://github.com/yiisoft/yii
 ```php
 ...
     'components' => [
+        'httpclient' => [
+            'class' => 'yii\httpclient\Client',
+        ],
     ],
 ...
 ```
