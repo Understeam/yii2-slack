@@ -13,7 +13,7 @@ use yii\base\InvalidConfigException;
 use yii\helpers\Json;
 
 /**
- * Class Client TODO: Write class description
+ * Slack client allows to send messages directly to Slack chats
  * @author Anatoly Rugalev
  * @link https://github.com/AnatolyRugalev
  */
@@ -80,7 +80,8 @@ class Client extends Component
         ])->send();
     }
 
-    protected function getPayload($text = null, $icon = null, $attachments = [], $channel = null)
+
+    protected function getPayload($text = null, $emoji = null, $attachments = [], $channel = null)
     {
         if ($text === null) {
             $text = $this->defaultText;
@@ -97,8 +98,8 @@ class Client extends Component
         if ($channel !== null) {
             $payload['channel'] = $channel;
         }
-        if ($icon !== null) {
-            $payload['icon_emoji'] = $icon;
+        if ($emoji !== null) {
+            $payload['icon_emoji'] = $emoji;
         }
         return $payload;
     }
