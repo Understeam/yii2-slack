@@ -19,14 +19,38 @@ use yii\helpers\Json;
  */
 class Client extends Component
 {
+    /**
+     * @var string URL of Slack incoming webhook integration
+     */
     public $url;
+
+    /**
+     * @var string sender username
+     */
     public $username;
+
+    /**
+     * @var string emoji code to use as avatar of sender
+     */
     public $emoji;
+
+    /**
+     * @var string Default message content. Useful when sending only attachments
+     */
     public $defaultText = "Message from Yii application";
+
+    /**
+     * @var string Default channel to send messages to
+     */
+    public $defaultChannel;
 
     /** @var string|\yii\httpclient\Client */
     public $httpclient = 'httpclient';
 
+    /**
+     * @inheritdoc
+     * @throws InvalidConfigException
+     */
     public function init()
     {
         if (is_string($this->httpclient)) {
@@ -42,17 +66,27 @@ class Client extends Component
         }
     }
 
-    public function send($text = null, $icon = null, $attachments = [])
+    /**
+     * Send a message to slack
+     * @param string $text message text
+     * @param string $emoji emoji icon
+     * @param array $attachments attachments (@see https://api.slack.com/incoming-webhooks)
+     * @param string $channel channel to send to
+     */
+    public function send($text = null, $emoji = null, $attachments = [], $channel = null)
     {
         $this->httpclient->post($this->url, [
-            'payload' => Json::encode($this->getPayload($text, $icon, $attachments)),
+            'payload' => Json::encode($this->getPayload($text, $emoji, $attachments, $channel)),
         ])->send();
     }
 
-    protected function getPayload($text = null, $icon = null, $attachments = [])
+    protected function getPayload($text = null, $icon = null, $attachments = [], $channel = null)
     {
         if ($text === null) {
             $text = $this->defaultText;
+        }
+        if ($channel === null) {
+            $channel = $this->defaultChannel;
         }
 
         $payload = [
@@ -60,6 +94,9 @@ class Client extends Component
             'username' => $this->username,
             'attachments' => $attachments,
         ];
+        if ($channel !== null) {
+            $payload['channel'] = $channel;
+        }
         if ($icon !== null) {
             $payload['icon_emoji'] = $icon;
         }
