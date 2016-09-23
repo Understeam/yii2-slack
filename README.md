@@ -8,7 +8,7 @@ Designed to send messages to slack messenger
 ## Installation
 
 ```bash
-php composer.phar require understeam/yii2-slack:~0.2 --prefer-dist
+php composer.phar require understeam/yii2-slack:~0.3 --prefer-dist
 ```
 
 Also, you should configure [incoming webhook](https://api.slack.com/incoming-webhooks) inside your Slack team.
