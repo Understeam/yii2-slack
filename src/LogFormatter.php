@@ -10,6 +10,7 @@ namespace understeam\slack;
 use Yii;
 use yii\base\Component;
 use yii\helpers\ArrayHelper;
+use yii\helpers\VarDumper;
 use yii\log\Logger;
 
 /**
@@ -65,8 +66,13 @@ class LogFormatter extends Component
     protected function buildAttachment($message)
     {
         list($text, $level, $category, $timestamp) = $message;
+
         if (!is_string($text)) {
-            $text = var_export($text, true);
+            if ($text instanceof \Throwable || $text instanceof \Exception) {
+                $text = (string) $text;
+            } else {
+                $text = VarDumper::export($text);
+            }
         }
 
         return [
@@ -90,12 +96,12 @@ class LogFormatter extends Component
                     "value" => date('Y-m-d H:i:s', $timestamp),
                 ],
                 [
-                    "Title" => "Route",
+                    "title" => "Route",
                     "short" => true,
                     "value" => Yii::$app->requestedRoute,
                 ],
                 [
-                    "Title" => "Params",
+                    "title" => "Params",
                     "short" => true,
                     "value" => var_export(Yii::$app->requestedParams, true),
                 ],

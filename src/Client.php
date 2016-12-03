@@ -75,9 +75,10 @@ class Client extends Component
      */
     public function send($text = null, $attachments = [], $emoji = null, $channel = null)
     {
-        $this->httpclient->post($this->url, [
-            'payload' => Json::encode($this->getPayload($text, $emoji, $attachments, $channel)),
-        ])->send();
+        $request = $this->httpclient
+            ->post($this->url, $this->getPayload($text, $attachments, $emoji, $channel));
+        $request->setFormat('json');
+        $request->send();
     }
 
     protected function getPayload($text = null, $attachments = [], $emoji = null, $channel = null)
