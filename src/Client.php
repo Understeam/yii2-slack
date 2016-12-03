@@ -1,8 +1,8 @@
 <?php
 /**
- * @link https://github.com/AnatolyRugalev
- * @copyright Copyright (c) AnatolyRugalev
- * @license https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)
+ * @link https://github.com/Unsersteam
+ * @copyright Copyright (c) 2016 Anatoly Rugalev
+ * @license http://choosealicense.com/licenses/mit/
  */
 
 namespace understeam\slack;
@@ -15,7 +15,7 @@ use yii\helpers\Json;
 /**
  * Slack client allows to send messages directly to Slack chats
  * @author Anatoly Rugalev
- * @link https://github.com/AnatolyRugalev
+ * @link https://github.com/Understeam/yii2-slack
  */
 class Client extends Component
 {
@@ -69,19 +69,18 @@ class Client extends Component
     /**
      * Send a message to slack
      * @param string $text message text
-     * @param string $emoji emoji icon
      * @param array $attachments attachments (@see https://api.slack.com/incoming-webhooks)
+     * @param string $emoji emoji icon
      * @param string $channel channel to send to
      */
-    public function send($text = null, $emoji = null, $attachments = [], $channel = null)
+    public function send($text = null, $attachments = [], $emoji = null, $channel = null)
     {
         $this->httpclient->post($this->url, [
             'payload' => Json::encode($this->getPayload($text, $emoji, $attachments, $channel)),
         ])->send();
     }
 
-
-    protected function getPayload($text = null, $emoji = null, $attachments = [], $channel = null)
+    protected function getPayload($text = null, $attachments = [], $emoji = null, $channel = null)
     {
         if ($text === null) {
             $text = $this->defaultText;
@@ -95,11 +94,11 @@ class Client extends Component
             'username' => $this->username,
             'attachments' => $attachments,
         ];
-        if ($channel !== null) {
-            $payload['channel'] = $channel;
-        }
         if ($emoji !== null) {
             $payload['icon_emoji'] = $emoji;
+        }
+        if ($channel !== null) {
+            $payload['channel'] = $channel;
         }
         return $payload;
     }
