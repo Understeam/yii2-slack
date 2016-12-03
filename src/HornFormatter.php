@@ -45,6 +45,7 @@ class HornFormatter extends LogFormatter
         }
         $text = strtr($text, [
             '->' => '::',
+            ' => ' => ': ',
             '<' => '&lt;',
             '>' => '&gt;',
             '&' => '&amp;',
