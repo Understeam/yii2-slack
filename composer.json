@@ -1,8 +1,8 @@
 {
   "name": "understeam/yii2-slack",
-  "description": "Yii2 slack client based on GuzzleHttp library",
-  "type": "extension",
-  "license": "GPL-v3",
+  "description": "Yii2 slack client based on Yii HTTP client",
+  "type": "yii2-extension",
+  "license": "MIT",
   "support": {
     "issues": "https://github.com/understeam/yii2-slack/issues",
     "source": "https://github.com/understeam/yii2-slack"
